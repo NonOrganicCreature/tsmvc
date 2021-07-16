@@ -1,11 +1,16 @@
 import { Entity } from '../Model/Entity'
-class EntityController {
-    entity: Entity
+abstract class EntityController {
+    _entity: Entity
+
     constructor(e: Entity) {
-        this.entity = e
+        this._entity = e
     }
 
-    performAction(): void {
-        
+    get entity(): Entity {
+        return this._entity
     }
+
+    abstract performAction(): void;
 }
+
+export { EntityController }
