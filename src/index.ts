@@ -1,4 +1,4 @@
-import { initCanvas, getCanvasContext, resetPageStyles } from "./pageWrapper"
+import { initCanvas, resetPageStyles } from "./pageWrapper"
 import { gameStart } from './game/main'
 
 resetPageStyles()

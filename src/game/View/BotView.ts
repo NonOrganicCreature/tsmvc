@@ -7,7 +7,7 @@ class BotView extends EntityView {
     }
 
     draw(params: Bot) {
-
+        
     }
 }
 

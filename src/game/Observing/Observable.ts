@@ -2,6 +2,10 @@ import { Observer } from './Observer'
 abstract class Observable {
     observers: Array<Observer>
     
+    constructor() {
+        this.observers = []
+    }
+
     registerObserver(observer: Observer): void {
         this.observers.push(observer)
     }

@@ -1,6 +1,6 @@
 import { Entity } from '../Model/Entity'
 abstract class EntityController {
-    _entity: Entity
+    private _entity: Entity
 
     constructor(e: Entity) {
         this._entity = e
@@ -8,6 +8,10 @@ abstract class EntityController {
 
     get entity(): Entity {
         return this._entity
+    }
+
+    set entity(value: Entity) {
+        this._entity = value
     }
 
     abstract performAction(): void;
