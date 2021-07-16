@@ -11,7 +11,7 @@ abstract class Entity extends Observable {
         super()
         this._currentTarget = null
         this._state = EntityState.Idle
-        this._position = new Position(0, 0, 0)
+        this._position = new Position(0, 0, 0, 0, 0)
         this.notifyObservers(this)
     }
 

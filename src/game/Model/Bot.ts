@@ -1,13 +1,15 @@
 import { Entity } from "./Entity";
+import { Position } from "./Position";
 import { Stats } from "./Stats";
 
 class Bot extends Entity {
 
     private _stats: Stats
 
-    constructor() {
+    constructor(position: Position) {
         super()
         this._stats = new Stats(2, 100)
+        this.position = position
     }
 
     get stats(): Stats {

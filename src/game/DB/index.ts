@@ -1,5 +1,6 @@
 import { Bot } from '../Model/Bot'
 import { Entity } from '../Model/Entity'
+import { Position } from '../Model/Position'
 import { BotView } from '../View/BotView'
 
 class DB {
@@ -13,11 +14,16 @@ class DB {
         let counter: number = entityCount
         while (counter > 0) {
 
-            const botEntity = new Bot()
+            const randomX: number = viewsRenderContext.canvas.width * Math.random()
+            const randomY: number = viewsRenderContext.canvas.height * Math.random()
+            const randomDirectionX: number = -1 + 2 * Math.random()
+            const randomDirectionY: number = -1 + 2 * Math.random()
+            
+            const botEntity = new Bot(new Position(randomX, randomY, 0, randomDirectionX, randomDirectionY))
             const botEntityView = new BotView(viewsRenderContext)
             botEntity.registerObserver(botEntityView)
 
-            this._entities.push(new Bot())
+            this._entities.push(botEntity)
             counter -= 1
         }
     }
