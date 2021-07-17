@@ -10,7 +10,7 @@ abstract class Observable {
         this.observers.push(observer)
     }
 
-    notifyObservers(params: any): void {
+    protected notifyObservers(params: any): void {
         this.observers.forEach(observer => observer.onNotifyCallback(params))
     }
 }

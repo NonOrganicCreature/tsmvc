@@ -7,6 +7,8 @@ const initCanvas = (): void => {
 const getCanvasContext = (): CanvasRenderingContext2D => {
     return c_context
 }
+
+
 const resetPageStyles = (): void => {
     document.body.style.padding = '0'
     document.body.style.margin = '0'

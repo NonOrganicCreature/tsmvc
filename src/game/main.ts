@@ -1,6 +1,7 @@
 import { DB } from "./DB"
 import { getCanvasContext } from "../pageWrapper"
 import { BotController } from "./Controller/BotController"
+import { PlayerController } from "./Controller/PlayerController"
 import { EntityController } from "./Controller/EntityController"
 import { EntityState } from "./Enum/EntityState"
 
@@ -9,6 +10,7 @@ const ENTITY_TO_GENERATE: number = 30
 const db: DB = new DB()
 
 const botController: EntityController = new BotController(null)
+const playerController: EntityController = new PlayerController(null)
 
 const c_ctx: CanvasRenderingContext2D = getCanvasContext()
 
@@ -17,7 +19,6 @@ const gameStart = (): void => {
     requestAnimationFrame(main)
 }
 
-let last = performance.now()
 const main = (): void => {
     c_ctx.clearRect(0, 0, c_ctx.canvas.width, c_ctx.canvas.height)
 
@@ -25,6 +26,9 @@ const main = (): void => {
         botController.entity = entity
         botController.performAction()
     });
+    
+    playerController.entity = db.playerEntity
+    playerController.performAction()
 
     requestAnimationFrame(main)
 }

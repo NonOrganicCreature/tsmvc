@@ -15,6 +15,7 @@ abstract class EntityController {
     }
 
     abstract performAction(): void;
+    abstract inputEventHandler(event: InputEvent): void;
 }
 
 export { EntityController }
