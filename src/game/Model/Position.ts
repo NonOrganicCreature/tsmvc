@@ -11,6 +11,7 @@ class Position {
         this.directionX = directionX
         this.directionY = directionY
     }
+    
 }
 
 export {

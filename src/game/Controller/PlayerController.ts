@@ -7,6 +7,7 @@ import { EntityController } from "./EntityController";
 @inputable
 class PlayerController extends EntityController {
 
+    keyPressed: any = {}
     constructor(playerEntity: Entity) {
         super(playerEntity)
     }
@@ -15,9 +16,7 @@ class PlayerController extends EntityController {
         switch (this.entity.state) {
             case EntityState.Idle: {
                 // binding this.entity param cause in is only one controller and this.entity changes every frame 
-                setTimeout(((entity: Entity) => {
-                    entity.state = EntityState.Moving
-                }).bind(this, this.entity), 1000)
+                this.entity.position = this.entity.position
                 return
             } break;
 
@@ -33,8 +32,43 @@ class PlayerController extends EntityController {
         }
     }
 
-    inputEventHandler(event: InputEvent): void {
-        // TODO: change direction on keydown event and state => Moving, keyup => Idle
+    inputEventHandler(event: any): void {
+        // change direction on arrow keys pressed
+        if (event.type === 'keydown') {
+            this.entity.state = EntityState.Moving
+            this.keyPressed[event.keyCode] = true
+
+            const currentPosition = new Position(this.entity.position.x, this.entity.position.y, 0, 0, 0) 
+
+            Object.keys(this.keyPressed).forEach(keyCode => {
+                if (this.keyPressed[+keyCode]) {
+                    switch(+keyCode) {
+                        case 38: {
+                            currentPosition.directionY = -1 
+                        } break;
+                        case 40: {
+                            currentPosition.directionY = 1 
+                        } break;
+                        case 37: {
+                            currentPosition.directionX = -1 
+                        } break;
+                        case 39: {
+                            currentPosition.directionX = 1 
+                        } break;
+                    }
+                }
+            })
+            
+            this.entity.position = currentPosition
+        }
+
+        if (event.type === 'keyup') {
+            this.entity.state = EntityState.Idle
+            this.keyPressed[event.keyCode] = false
+
+            // remove direction on key up and turn to Idle
+            this.entity.position = new Position(this.entity.position.x, this.entity.position.y, 0, 0, 0)
+        }
     }
 
 }
