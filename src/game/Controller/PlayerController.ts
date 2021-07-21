@@ -7,7 +7,8 @@ import { EntityController } from "./EntityController";
 @inputable
 class PlayerController extends EntityController {
 
-    keyPressed: any = {}
+    private keysPressed: any = {}
+    
     constructor(playerEntity: Entity) {
         super(playerEntity)
     }
@@ -36,12 +37,12 @@ class PlayerController extends EntityController {
         // change direction on arrow keys pressed
         if (event.type === 'keydown') {
             this.entity.state = EntityState.Moving
-            this.keyPressed[event.keyCode] = true
+            this.keysPressed[event.keyCode] = true
 
             const currentPosition = new Position(this.entity.position.x, this.entity.position.y, 0, 0, 0) 
 
-            Object.keys(this.keyPressed).forEach(keyCode => {
-                if (this.keyPressed[+keyCode]) {
+            Object.keys(this.keysPressed).forEach(keyCode => {
+                if (this.keysPressed[+keyCode]) {
                     switch(+keyCode) {
                         case 38: {
                             currentPosition.directionY = -1 
@@ -64,7 +65,7 @@ class PlayerController extends EntityController {
 
         if (event.type === 'keyup') {
             this.entity.state = EntityState.Idle
-            this.keyPressed[event.keyCode] = false
+            this.keysPressed[event.keyCode] = false
 
             // remove direction on key up and turn to Idle
             this.entity.position = new Position(this.entity.position.x, this.entity.position.y, 0, 0, 0)
