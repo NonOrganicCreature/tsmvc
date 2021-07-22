@@ -28,7 +28,7 @@ class BotController extends EntityController {
                     y + 1 * this.entity.position.directionY,
                     0,
                     this.entity.position.directionX,
-                    this.entity.position.directionY)
+                    this.entity.position.directionY, this.entity.position.radius)
             } break;
         }
     }

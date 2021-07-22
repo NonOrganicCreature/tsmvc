@@ -9,7 +9,7 @@ class PlayerView extends EntityView {
     draw(params: Entity): void {
         this.ctx.beginPath()
         this.ctx.fillStyle = "#00f"
-        this.ctx.arc(params.position.x, params.position.y, 15, 0, 2 * Math.PI)
+        this.ctx.arc(params.position.x, params.position.y, params.position.radius, 0, 2 * Math.PI)
         this.ctx.fill()
     }
 }

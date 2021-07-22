@@ -9,7 +9,7 @@ class BotView extends EntityView {
     draw(params: Bot) {
         this.ctx.beginPath()
         this.ctx.fillStyle = "#fff"
-        this.ctx.arc(params.position.x, params.position.y, 15, 0, 2 * Math.PI)
+        this.ctx.arc(params.position.x, params.position.y, params.position.radius, 0, 2 * Math.PI)
         this.ctx.fill()
     }
 }

@@ -1,3 +1,4 @@
+import { Collider } from '../Collisions/Collider'
 import { EntityState } from '../Enum/EntityState'
 import { Observable } from '../Observing/Observable'
 import { Position } from './Position'
@@ -6,12 +7,13 @@ abstract class Entity extends Observable {
     private _currentTarget: Entity
     private _state: EntityState
     private _position: Position
-
+    private _collider: Collider
     constructor() {
         super()
         this._currentTarget = null
         this._state = EntityState.Idle
-        this._position = new Position(0, 0, 0, 0, 0)
+        this._position = new Position(0, 0, 0, 0, 0, 0)
+
         this.notifyObservers(this)
     }
 
@@ -42,7 +44,14 @@ abstract class Entity extends Observable {
         this.notifyObservers(this)
     }
 
+    get collider(): Collider {
+        return this._collider
+    }
 
+    set collider(value: Collider) {
+        this._collider = value
+        this.notifyObservers(this)
+    }
 }
 
 

@@ -8,7 +8,7 @@ import { EntityController } from "./EntityController";
 class PlayerController extends EntityController {
 
     private keysPressed: any = {}
-    
+
     constructor(playerEntity: Entity) {
         super(playerEntity)
     }
@@ -28,7 +28,7 @@ class PlayerController extends EntityController {
                     y + 1 * this.entity.position.directionY,
                     0,
                     this.entity.position.directionX,
-                    this.entity.position.directionY)
+                    this.entity.position.directionY, this.entity.position.radius)
             } break;
         }
     }
@@ -37,38 +37,38 @@ class PlayerController extends EntityController {
         // change direction on arrow keys pressed
         if (event.type === 'keydown') {
             this.entity.state = EntityState.Moving
-            this.keysPressed[event.keyCode] = true
+            this.keysPressed[event.key] = true
 
-            const currentPosition = new Position(this.entity.position.x, this.entity.position.y, 0, 0, 0) 
+            const currentPosition = new Position(this.entity.position.x, this.entity.position.y, 0, 0, 0, this.entity.position.radius)
 
-            Object.keys(this.keysPressed).forEach(keyCode => {
-                if (this.keysPressed[+keyCode]) {
-                    switch(+keyCode) {
-                        case 38: {
-                            currentPosition.directionY = -1 
+            Object.keys(this.keysPressed).forEach(keyName => {
+                if (this.keysPressed[keyName]) {
+                    switch (keyName) {
+                        case "ArrowUp": {
+                            currentPosition.directionY = -1
                         } break;
-                        case 40: {
-                            currentPosition.directionY = 1 
+                        case "ArrowDown": {
+                            currentPosition.directionY = 1
                         } break;
-                        case 37: {
-                            currentPosition.directionX = -1 
+                        case "ArrowLeft": {
+                            currentPosition.directionX = -1
                         } break;
-                        case 39: {
-                            currentPosition.directionX = 1 
+                        case "ArrowRight": {
+                            currentPosition.directionX = 1
                         } break;
                     }
                 }
             })
-            
+
             this.entity.position = currentPosition
         }
 
         if (event.type === 'keyup') {
             this.entity.state = EntityState.Idle
-            this.keysPressed[event.keyCode] = false
+            this.keysPressed[event.key] = false
 
             // remove direction on key up and turn to Idle
-            this.entity.position = new Position(this.entity.position.x, this.entity.position.y, 0, 0, 0)
+            this.entity.position = new Position(this.entity.position.x, this.entity.position.y, 0, 0, 0, this.entity.position.radius)
         }
     }
 

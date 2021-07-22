@@ -23,7 +23,7 @@ class DB {
             const randomDirectionX: number = -1 + 2 * Math.random()
             const randomDirectionY: number = -1 + 2 * Math.random()
             
-            const botEntity = new Bot(new Position(randomX, randomY, 0, randomDirectionX, randomDirectionY))
+            const botEntity = new Bot(new Position(randomX, randomY, 0, randomDirectionX, randomDirectionY, 8))
             const botEntityView = new BotView(viewsRenderContext)
             botEntity.registerObserver(botEntityView)
 
@@ -36,7 +36,7 @@ class DB {
         const randomDirectionX: number = -1 + 2 * Math.random()
         const randomDirectionY: number = -1 + 2 * Math.random()
 
-        this._playerEntity.position = new Position(randomX, randomY, 0, randomDirectionX, randomDirectionY) 
+        this._playerEntity.position = new Position(randomX, randomY, 0, randomDirectionX, randomDirectionY, 15) 
         this._playerEntity.registerObserver(new PlayerView(viewsRenderContext))
 
     }
