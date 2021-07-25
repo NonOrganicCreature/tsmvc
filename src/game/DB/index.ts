@@ -3,6 +3,7 @@ import { Entity } from '../Model/Entity'
 import { Player } from '../Model/Player'
 import { Position } from '../Model/Position'
 import { BotView } from '../View/BotView'
+import { EntityView } from '../View/EntityView'
 import { PlayerView } from '../View/PlayerView'
 
 class DB {
@@ -47,6 +48,15 @@ class DB {
 
     get playerEntity(): Entity {
         return this._playerEntity
+    }
+
+    addParticleEntity(particle: Entity, particleView: EntityView) {
+        particle.registerObserver(particleView)
+        this._entities.push(particle)
+    }
+
+    deleteParticle(p: Entity) {
+        this._entities = this.entities.filter(particle => particle === p)
     }
 }
 
