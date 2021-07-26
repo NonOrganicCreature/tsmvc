@@ -1,3 +1,4 @@
+import { CircleCollider } from "../Collisions/CircleCollider";
 import { Entity } from "./Entity";
 import { Position } from "./Position";
 import { Stats } from "./Stats";
@@ -5,10 +6,11 @@ import { Stats } from "./Stats";
 class Player extends Entity {
     private _stats: Stats
 
-    constructor(position: Position) {
+    constructor() {
         super()
         this._stats = new Stats(2, 100)
-        this.position = position
+        this.position = new Position(0, 0, 0, 0, 0, 0)
+        this.collider = new CircleCollider(this, 0)
     }
 
     get stats(): Stats {

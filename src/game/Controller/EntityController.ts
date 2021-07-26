@@ -15,7 +15,7 @@ abstract class EntityController {
     }
 
     abstract performAction(): void;
-    abstract inputEventHandler(event: InputEvent): void;
+    abstract inputEventHandler(event: KeyboardEvent): void;
 }
 
 export { EntityController }

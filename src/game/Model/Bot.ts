@@ -1,3 +1,4 @@
+import { CircleCollider } from "../Collisions/CircleCollider";
 import { Entity } from "./Entity";
 import { Position } from "./Position";
 import { Stats } from "./Stats";
@@ -10,6 +11,7 @@ class Bot extends Entity {
         super()
         this._stats = new Stats(2, 100)
         this.position = position
+        this.collider = new CircleCollider(this, this.position.radius)
     }
 
     get stats(): Stats {

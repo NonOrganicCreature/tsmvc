@@ -1,3 +1,5 @@
+import { CircleCollider } from '../Collisions/CircleCollider'
+import { Collider } from '../Collisions/Collider'
 import { Bot } from '../Model/Bot'
 import { Entity } from '../Model/Entity'
 import { Player } from '../Model/Player'
@@ -12,7 +14,7 @@ class DB {
 
     constructor() {
         this._entities = []
-        this._playerEntity = new Player(null)
+        this._playerEntity = new Player()
     }
 
     initializeDB(entityCount: number, viewsRenderContext: CanvasRenderingContext2D): void {
@@ -38,6 +40,7 @@ class DB {
         const randomDirectionY: number = -1 + 2 * Math.random()
 
         this._playerEntity.position = new Position(randomX, randomY, 0, randomDirectionX, randomDirectionY, 15) 
+        this._playerEntity.collider = new CircleCollider(this._playerEntity, this._playerEntity.position.radius)
         this._playerEntity.registerObserver(new PlayerView(viewsRenderContext))
 
     }

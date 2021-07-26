@@ -1,3 +1,5 @@
+import { EntityAnimation } from '../Animation/Animation'
+import { CircleCollider } from '../Collisions/CircleCollider'
 import { Collider } from '../Collisions/Collider'
 import { EntityState } from '../Enum/EntityState'
 import { Observable } from '../Observing/Observable'
@@ -8,12 +10,12 @@ abstract class Entity extends Observable {
     private _state: EntityState
     private _position: Position
     private _collider: Collider
+    private _animation: EntityAnimation
     constructor() {
         super()
         this._currentTarget = null
         this._state = EntityState.Idle
         this._position = new Position(0, 0, 0, 0, 0, 0)
-
         this.notifyObservers(this)
     }
 
@@ -52,6 +54,15 @@ abstract class Entity extends Observable {
         this._collider = value
         this.notifyObservers(this)
     }
+
+    get animation(): EntityAnimation {
+        return this._animation
+    }
+
+    set animation(value: EntityAnimation) {
+        this._animation = value
+    }
+
 }
 
 

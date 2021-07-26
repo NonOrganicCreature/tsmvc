@@ -1,3 +1,4 @@
+import { Entity } from "../Model/Entity"
 import { distanceBetween } from "../Utils"
 import { Collider } from "./Collider"
 
@@ -5,8 +6,8 @@ class CircleCollider extends Collider {
 
     private radius: number = 0
 
-    constructor(radius: number) {
-        super()
+    constructor(entity: Entity, radius: number) {
+        super(entity)
         this.radius = radius
     }
 

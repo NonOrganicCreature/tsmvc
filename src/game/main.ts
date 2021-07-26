@@ -10,11 +10,11 @@ const ENTITY_TO_GENERATE: number = 30;
 
 const db: DB = new DB();
 
+const c_ctx: CanvasRenderingContext2D = getCanvasContext();
 const botController: EntityController = new BotController(null);
 const playerController: EntityController = new PlayerController(null);
-const particleController: EntityController = new ParticleController(null);
+const particleController: EntityController = new ParticleController(null, c_ctx);
 
-const c_ctx: CanvasRenderingContext2D = getCanvasContext();
 
 const gameStart = (): void => {
     db.initializeDB(ENTITY_TO_GENERATE, c_ctx);
@@ -32,8 +32,8 @@ const main = (): void => {
     const pc = (particleController as ParticleController)
     pc.nonParticleEntities = [
         ...db.entities,
-        db.playerEntity,
     ];
+    pc.playerEntity = db.playerEntity
     pc.performAction()
     
 

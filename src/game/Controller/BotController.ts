@@ -33,7 +33,7 @@ class BotController extends EntityController {
         }
     }
 
-    inputEventHandler(event: InputEvent) {
+    inputEventHandler(event: KeyboardEvent) {
     }
 }
 
