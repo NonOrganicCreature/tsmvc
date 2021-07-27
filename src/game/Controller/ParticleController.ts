@@ -2,8 +2,10 @@ import { PlayerAttackAnimation } from "../Animation/PlayerAttackAnimation";
 import { TimingFunctions } from "../Animation/TimingFunctions";
 import { inputable } from "../Decorators/InputableController";
 import { Entity } from "../Model/Entity";
+import { Player } from "../Model/Player";
 import { PlayerAttackParticle } from "../Model/PlayerAttackParticle";
 import { PlayerAttackParticleView } from "../View/PlayerAttackParticleView";
+import { PlayerAttackViewModel } from "../ViewModel/PlayerAttackViewModel";
 import { EntityController } from "./EntityController";
 
 @inputable
@@ -24,12 +26,12 @@ class ParticleController extends EntityController {
         this.particles = this.particles.filter(
             (particle) => !!particle.animation
         );
-        
+
         // transform particles
         this.particles.forEach((particle) => {
             if (particle.animation) {
-                particle.position = particle.animation.animate(
-                    particle.position
+                particle.viewModel.radius = particle.animation.animate(
+                    particle.viewModel
                 );
 
                 if (particle.animation.progress() >= 1) {
@@ -37,10 +39,10 @@ class ParticleController extends EntityController {
                 }
             }
             if (particle instanceof PlayerAttackParticle) {
-                particle.position = {
-                    ...particle.position,
-                    x: this.playerEntity.position.x,
-                    y: this.playerEntity.position.y,
+                particle.viewModel.position = {
+                    ...particle.viewModel.position,
+                    x: this.playerEntity.viewModel.position.x,
+                    y: this.playerEntity.viewModel.position.y,
                 };
             }
         });
@@ -49,6 +51,14 @@ class ParticleController extends EntityController {
         this.particles.forEach((particle) => {
             this.nonParticleEntities.forEach((entity) => {
                 if (particle.collider.collided(entity.collider)) {
+                    if (particle instanceof PlayerAttackParticle) {
+                        if (entity instanceof Player) {
+                            return;
+                        }
+
+                        // this.nonParticleEntities = this.nonParticleEntities.filter(e => e === entity)
+                        console.log(this.nonParticleEntities.length);
+                    }
                 }
             });
         });
@@ -67,16 +77,19 @@ class ParticleController extends EntityController {
                         ) {
                             return;
                         }
-                        const playerAttackParticle = new PlayerAttackParticle({
-                            ...this.playerEntity.position,
-                        });
+                        const playerAttackParticle = new PlayerAttackParticle(
+                            new PlayerAttackViewModel(10, "#00f", {
+                                ...this.playerEntity.viewModel.position,
+                            })
+                        );
+                        debugger
                         playerAttackParticle.animation =
                             new PlayerAttackAnimation(
-                                performance.now() + 500,
+                                performance.now() + 1000,
                                 TimingFunctions.quad,
                                 2
                             );
-                        playerAttackParticle.registerObserver(
+                        playerAttackParticle.viewModel.registerObserver(
                             new PlayerAttackParticleView(this.ctx)
                         );
                         this.particles.push(playerAttackParticle);

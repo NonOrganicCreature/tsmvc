@@ -1,22 +1,19 @@
 import { EntityAnimation } from '../Animation/Animation'
-import { CircleCollider } from '../Collisions/CircleCollider'
 import { Collider } from '../Collisions/Collider'
 import { EntityState } from '../Enum/EntityState'
-import { Observable } from '../Observing/Observable'
-import { Position } from './Position'
-abstract class Entity extends Observable {
+import { ViewModel } from '../ViewModel/ViewMode'
+abstract class Entity {
     
     private _currentTarget: Entity
     private _state: EntityState
-    private _position: Position
     private _collider: Collider
     private _animation: EntityAnimation
-    constructor() {
-        super()
+    private _viewModel: ViewModel
+    
+    constructor(viewModel: ViewModel) {
         this._currentTarget = null
         this._state = EntityState.Idle
-        this._position = new Position(0, 0, 0, 0, 0, 0)
-        this.notifyObservers(this)
+        this._viewModel = viewModel
     }
 
     get state(): EntityState {
@@ -25,7 +22,6 @@ abstract class Entity extends Observable {
 
     set state(value: EntityState) {
         this._state = value
-        this.notifyObservers(this)
     }
 
     get currentTarget(): Entity {
@@ -34,16 +30,6 @@ abstract class Entity extends Observable {
 
     set currentTarget(value: Entity) {
         this._currentTarget = value
-        this.notifyObservers(this)
-    }
-
-    get position(): Position {
-        return this._position
-    }
-
-    set position(value: Position) {
-        this._position = value
-        this.notifyObservers(this)
     }
 
     get collider(): Collider {
@@ -52,7 +38,6 @@ abstract class Entity extends Observable {
 
     set collider(value: Collider) {
         this._collider = value
-        this.notifyObservers(this)
     }
 
     get animation(): EntityAnimation {
@@ -61,6 +46,14 @@ abstract class Entity extends Observable {
 
     set animation(value: EntityAnimation) {
         this._animation = value
+    }
+
+    get viewModel(): ViewModel {
+        return this._viewModel
+    }
+
+    set viewModel(value: ViewModel) {
+        this._viewModel = value
     }
 
 }

@@ -1,4 +1,6 @@
 import { Entity } from "../Model/Entity";
+import { PlayerAttackViewModel } from "../ViewModel/PlayerAttackViewModel";
+import { ViewModel } from "../ViewModel/ViewMode";
 import { EntityView } from "./EntityView";
 
 class PlayerAttackParticleView extends EntityView {
@@ -6,13 +8,14 @@ class PlayerAttackParticleView extends EntityView {
         super(ctx);
     }
 
-    draw(params: Entity): void {
+    draw(params: ViewModel): void {
+        const vm = (<PlayerAttackViewModel>params)
         this.ctx.beginPath();
-        this.ctx.strokeStyle = "#00f";
+        this.ctx.strokeStyle = vm.color;
         this.ctx.arc(
-            params.position.x,
-            params.position.y,
-            params.position.radius,
+            vm.position.x,
+            vm.position.y,
+            vm.radius,
             0,
             2 * Math.PI
         );

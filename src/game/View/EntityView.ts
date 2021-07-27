@@ -1,9 +1,10 @@
 import { Entity } from "../Model/Entity"
 import { Observer } from "../Observing/Observer"
+import { ViewModel } from "../ViewModel/ViewMode"
 
 abstract class EntityView extends Observer {
     ctx: CanvasRenderingContext2D
-
+    
     constructor(ctx: CanvasRenderingContext2D) {
         super()
         this.ctx = ctx
@@ -13,7 +14,7 @@ abstract class EntityView extends Observer {
         this.draw(params)
     }
 
-    abstract draw(params: Entity): void;
+    abstract draw(params: ViewModel): void;
 }
 
 export {

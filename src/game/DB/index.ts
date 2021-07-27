@@ -1,5 +1,4 @@
 import { CircleCollider } from '../Collisions/CircleCollider'
-import { Collider } from '../Collisions/Collider'
 import { Bot } from '../Model/Bot'
 import { Entity } from '../Model/Entity'
 import { Player } from '../Model/Player'
@@ -7,6 +6,8 @@ import { Position } from '../Model/Position'
 import { BotView } from '../View/BotView'
 import { EntityView } from '../View/EntityView'
 import { PlayerView } from '../View/PlayerView'
+import { BotViewModel } from '../ViewModel/BotViewModel'
+import { PlayerViewModel } from '../ViewModel/PlayerViewModel'
 
 class DB {
     _entities: Array<Entity>
@@ -14,7 +15,7 @@ class DB {
 
     constructor() {
         this._entities = []
-        this._playerEntity = new Player()
+        this._playerEntity = new Player(new PlayerViewModel(12, "#00f", new Position(0, 0, 0, 0)))
     }
 
     initializeDB(entityCount: number, viewsRenderContext: CanvasRenderingContext2D): void {
@@ -26,9 +27,9 @@ class DB {
             const randomDirectionX: number = -1 + 2 * Math.random()
             const randomDirectionY: number = -1 + 2 * Math.random()
             
-            const botEntity = new Bot(new Position(randomX, randomY, 0, randomDirectionX, randomDirectionY, 8))
+            const botEntity = new Bot(new BotViewModel(10, '#fff', new Position(randomX, randomY, randomDirectionX, randomDirectionY)))
             const botEntityView = new BotView(viewsRenderContext)
-            botEntity.registerObserver(botEntityView)
+            botEntity.viewModel.registerObserver(botEntityView)
 
             this._entities.push(botEntity)
             counter -= 1
@@ -39,9 +40,9 @@ class DB {
         const randomDirectionX: number = -1 + 2 * Math.random()
         const randomDirectionY: number = -1 + 2 * Math.random()
 
-        this._playerEntity.position = new Position(randomX, randomY, 0, randomDirectionX, randomDirectionY, 15) 
-        this._playerEntity.collider = new CircleCollider(this._playerEntity, this._playerEntity.position.radius)
-        this._playerEntity.registerObserver(new PlayerView(viewsRenderContext))
+        this._playerEntity.viewModel.position = new Position(randomX, randomY, randomDirectionX, randomDirectionY) 
+        this._playerEntity.collider = new CircleCollider(this._playerEntity, this._playerEntity.viewModel.radius)
+        this._playerEntity.viewModel.registerObserver(new PlayerView(viewsRenderContext))
 
     }
 
@@ -54,7 +55,7 @@ class DB {
     }
 
     addParticleEntity(particle: Entity, particleView: EntityView) {
-        particle.registerObserver(particleView)
+        // particle.registerObserver(particleView)
         this._entities.push(particle)
     }
 

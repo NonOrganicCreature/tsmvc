@@ -1,7 +1,9 @@
 import { Entity } from "../Model/Entity";
+import { Observer } from "../Observing/Observer";
 
-abstract class Collider {
+abstract class Collider extends Observer {
     constructor(entity: Entity) {
+        super()
         this.entity = entity
     }
     protected entity: Entity;

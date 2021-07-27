@@ -1,4 +1,5 @@
 import { Position } from "../Model/Position";
+import { ViewModel } from "../ViewModel/ViewMode";
 import { TimingFunctions } from "./TimingFunctions";
 
 abstract class EntityAnimation {
@@ -7,7 +8,7 @@ abstract class EntityAnimation {
     current: number;
     timingFunction: TimingFunctions.TimingFunction;
 
-    startPosition: Position
+    startViewModel: ViewModel
     scaleParams: number
     
     constructor(ends: number, timingFunction: TimingFunctions.TimingFunction, scaleParams: number = 1) {
@@ -22,7 +23,7 @@ abstract class EntityAnimation {
         return (this.current - this.starts) / (this.ends - this.starts);
     }
 
-    abstract animate(currentPosition: Position): Position;
+    abstract animate(currentViewModel: ViewModel): any;
 }
 
 export { EntityAnimation };

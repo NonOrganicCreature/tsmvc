@@ -1,15 +1,23 @@
-import { Position } from "../Model/Position";
+import { PlayerAttackViewModel } from "../ViewModel/PlayerAttackViewModel";
+import { ViewModel } from "../ViewModel/ViewMode";
 import { EntityAnimation } from "./Animation";
 
 class PlayerAttackAnimation extends EntityAnimation {
-    animate(currentPosition: Position): Position {
-        if (!this.startPosition) {
-            this.startPosition = currentPosition
+    animate(currentViewModel: ViewModel): any {
+        if (!this.startViewModel) {
+            this.startViewModel = new PlayerAttackViewModel(
+                currentViewModel.radius,
+                currentViewModel.color,
+                currentViewModel.position
+            );
         }
         this.current = performance.now();
+        const radius =
+            this.scaleParams *
+            (<PlayerAttackViewModel>this.startViewModel).radius *
+            this.timingFunction(this.progress());
 
-        const radius = this.scaleParams * this.startPosition.radius * this.timingFunction(this.progress());
-        return { ...currentPosition, radius: radius };
+        return radius;
     }
 }
 

@@ -1,4 +1,5 @@
 import { CircleCollider } from "../Collisions/CircleCollider";
+import { ViewModel } from "../ViewModel/ViewMode";
 import { Entity } from "./Entity";
 import { Position } from "./Position";
 import { Stats } from "./Stats";
@@ -7,11 +8,10 @@ class Bot extends Entity {
 
     private _stats: Stats
 
-    constructor(position: Position) {
-        super()
+    constructor(viewModel: ViewModel) {
+        super(viewModel)
         this._stats = new Stats(2, 100)
-        this.position = position
-        this.collider = new CircleCollider(this, this.position.radius)
+        this.collider = new CircleCollider(this, this.viewModel.radius)
     }
 
     get stats(): Stats {
@@ -20,7 +20,6 @@ class Bot extends Entity {
 
     set stats(value: Stats) {
         this._stats = value
-        this.notifyObservers(this)
     }
 }
 

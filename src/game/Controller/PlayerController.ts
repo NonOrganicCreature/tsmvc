@@ -17,19 +17,19 @@ class PlayerController extends EntityController {
             case EntityState.Idle:
                 {
                     // binding this.entity param cause in is only one controller and this.entity changes every frame
-                    this.entity.position = this.entity.position;
+                    this.entity.viewModel.position = this.entity.viewModel.position;
                     return;
                 }
                 break;
 
             case EntityState.Moving:
                 {
-                    const x: number = this.entity.position.x;
-                    const y: number = this.entity.position.y;
-                    const dX = this.entity.position.directionX;
-                    const dY = this.entity.position.directionY;
-                    this.entity.position = {
-                        ...this.entity.position,
+                    const x: number = this.entity.viewModel.position.x;
+                    const y: number = this.entity.viewModel.position.y;
+                    const dX = this.entity.viewModel.position.directionX;
+                    const dY = this.entity.viewModel.position.directionY;
+                    this.entity.viewModel.position = {
+                        ...this.entity.viewModel.position,
                         x: x + 5 * dX,
                         y: y + 5 * dY,
                     };
@@ -50,22 +50,18 @@ class PlayerController extends EntityController {
             this.keysPressed[event.key] = false;
 
             // remove direction on key up and turn to Idle
-            this.entity.position = new Position(
-                this.entity.position.x,
-                this.entity.position.y,
+            this.entity.viewModel.position = new Position(
+                this.entity.viewModel.position.x,
+                this.entity.viewModel.position.y,
                 0,
                 0,
-                0,
-                this.entity.position.radius
             );
         }
         const currentPosition = new Position(
-            this.entity.position.x,
-            this.entity.position.y,
+            this.entity.viewModel.position.x,
+            this.entity.viewModel.position.y,
             0,
-            0,
-            0,
-            this.entity.position.radius
+            0
         );
 
         Object.keys(this.keysPressed).forEach((keyName) => {
@@ -95,7 +91,7 @@ class PlayerController extends EntityController {
             }
         });
 
-        this.entity.position = currentPosition;
+        this.entity.viewModel.position = currentPosition;
     }
 }
 
