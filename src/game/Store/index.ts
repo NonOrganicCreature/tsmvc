@@ -9,12 +9,14 @@ import { PlayerView } from '../View/PlayerView'
 import { BotViewModel } from '../ViewModel/BotViewModel'
 import { PlayerViewModel } from '../ViewModel/PlayerViewModel'
 
-class DB {
+class Store {
     _entities: Array<Entity>
     _playerEntity: Entity
+    _particles: Entity[]
 
     constructor() {
         this._entities = []
+        this._particles = []
         this._playerEntity = new Player(new PlayerViewModel(12, "#00f", new Position(0, 0, 0, 0)))
     }
 
@@ -50,8 +52,20 @@ class DB {
         return this._entities
     }
 
+    set entities(value: Entity[]) {
+        this._entities = value
+    }
+
     get playerEntity(): Entity {
         return this._playerEntity
+    }
+
+    get particles(): Entity[] {
+        return this._particles
+    }
+
+    set particles(value: Entity[]) {
+        this._particles = value
     }
 
     addParticleEntity(particle: Entity, particleView: EntityView) {
@@ -64,6 +78,11 @@ class DB {
     }
 }
 
+
+
+const store: Store = new Store();
+
+
 export {
-    DB
+    store
 }

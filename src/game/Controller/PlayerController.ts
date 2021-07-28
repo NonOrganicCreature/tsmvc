@@ -3,7 +3,13 @@ import { EntityState } from "../Enum/EntityState";
 import { Entity } from "../Model/Entity";
 import { Position } from "../Model/Position";
 import { EntityController } from "./EntityController";
-
+import { store } from "../Store";
+import { PlayerAttackParticle } from "../Model/PlayerAttackParticle";
+import { PlayerAttackAnimation } from "../Animation/PlayerAttackAnimation";
+import { TimingFunctions } from "../Animation/TimingFunctions";
+import { PlayerAttackParticleView } from "../View/PlayerAttackParticleView";
+import { PlayerAttackViewModel } from "../ViewModel/PlayerAttackViewModel";
+import { getCanvasContext } from "../../pageWrapper";
 @inputable
 class PlayerController extends EntityController {
     private keysPressed: any = {};
@@ -87,6 +93,35 @@ class PlayerController extends EntityController {
                             currentPosition.directionX = 1;
                         }
                         break;
+
+                        case " ":
+                    {
+                        if (
+                            store.particles.filter(
+                                (particle) =>
+                                    particle instanceof PlayerAttackParticle
+                            )[0]
+                        ) {
+                            return;
+                        }
+                        const playerAttackParticle = new PlayerAttackParticle(
+                            new PlayerAttackViewModel(10, "#00f", {
+                                ...store.playerEntity.viewModel.position,
+                            })
+                        );
+                        debugger
+                        playerAttackParticle.animation =
+                            new PlayerAttackAnimation(
+                                performance.now() + 1000,
+                                TimingFunctions.quad,
+                                2
+                            );
+                        playerAttackParticle.viewModel.registerObserver(
+                            new PlayerAttackParticleView(getCanvasContext())
+                        );
+                        store.particles.push(playerAttackParticle);
+                    }
+                    break;
                 }
             }
         });
