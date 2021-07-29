@@ -15,7 +15,7 @@ class CircleCollider extends Collider {
 
     collided(target: Collider): boolean {
         if (target instanceof CircleCollider) {
-            return distanceBetween(this.entity.viewModel.position, target.entity.viewModel.position) <= (target.radius + this.radius)
+            return distanceBetween(this.entity.viewModel.position, target.entity.viewModel.position) <= (target.entity.viewModel.radius + this.radius)
         }
         return false
     }

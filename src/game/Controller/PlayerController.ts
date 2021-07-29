@@ -22,8 +22,8 @@ class PlayerController extends EntityController {
         switch (this.entity.state) {
             case EntityState.Idle:
                 {
-                    // binding this.entity param cause in is only one controller and this.entity changes every frame
-                    this.entity.viewModel.position = this.entity.viewModel.position;
+                    this.entity.viewModel.position =
+                        this.entity.viewModel.position;
                     return;
                 }
                 break;
@@ -39,6 +39,15 @@ class PlayerController extends EntityController {
                         x: x + 5 * dX,
                         y: y + 5 * dY,
                     };
+
+                    store.particles.forEach(particle => {
+                        if (particle instanceof PlayerAttackParticle) {
+                            particle.viewModel.position = {
+                                ...this.entity.viewModel.position
+                            };
+                        }
+                    })
+
                 }
                 break;
         }
@@ -46,29 +55,22 @@ class PlayerController extends EntityController {
 
     inputEventHandler(event: KeyboardEvent): void {
         // change direction on arrow keys pressed
-        if (event.type === "keydown") {
-            this.entity.state = EntityState.Moving;
-            this.keysPressed[event.key] = true;
-        }
-
-        if (event.type === "keyup" && event.key !== " ") {
-            this.entity.state = EntityState.Idle;
-            this.keysPressed[event.key] = false;
-
-            // remove direction on key up and turn to Idle
-            this.entity.viewModel.position = new Position(
-                this.entity.viewModel.position.x,
-                this.entity.viewModel.position.y,
-                0,
-                0,
-            );
-        }
         const currentPosition = new Position(
             this.entity.viewModel.position.x,
             this.entity.viewModel.position.y,
             0,
             0
         );
+
+        if (event.type === "keydown") {
+            this.entity.state = EntityState.Moving;
+            this.keysPressed[event.key] = true;
+        }
+
+        if (event.type === "keyup") {
+            this.keysPressed[event.key] = false;
+            this.entity.viewModel.position = currentPosition
+        }
 
         Object.keys(this.keysPressed).forEach((keyName) => {
             if (this.keysPressed[keyName]) {
@@ -94,34 +96,35 @@ class PlayerController extends EntityController {
                         }
                         break;
 
-                        case " ":
-                    {
-                        if (
-                            store.particles.filter(
-                                (particle) =>
-                                    particle instanceof PlayerAttackParticle
-                            )[0]
-                        ) {
-                            return;
-                        }
-                        const playerAttackParticle = new PlayerAttackParticle(
-                            new PlayerAttackViewModel(10, "#00f", {
-                                ...store.playerEntity.viewModel.position,
-                            })
-                        );
-                        debugger
-                        playerAttackParticle.animation =
-                            new PlayerAttackAnimation(
-                                performance.now() + 1000,
-                                TimingFunctions.quad,
-                                2
+                    case " ":
+                        {
+                            if (
+                                store.particles.filter(
+                                    (particle) =>
+                                        particle instanceof PlayerAttackParticle
+                                )[0]
+                            ) {
+                                return;
+                            }
+                            const playerAttackParticle =
+                                new PlayerAttackParticle(
+                                    new PlayerAttackViewModel(10, "#00f", 
+                                        store.playerEntity.viewModel
+                                            .position,
+                                    )
+                                );
+                            playerAttackParticle.animation =
+                                new PlayerAttackAnimation(
+                                    performance.now() + 200,
+                                    TimingFunctions.quad,
+                                    3
+                                );
+                            playerAttackParticle.viewModel.registerObserver(
+                                new PlayerAttackParticleView(getCanvasContext())
                             );
-                        playerAttackParticle.viewModel.registerObserver(
-                            new PlayerAttackParticleView(getCanvasContext())
-                        );
-                        store.particles.push(playerAttackParticle);
-                    }
-                    break;
+                            store.particles.push(playerAttackParticle);
+                        }
+                        break;
                 }
             }
         });

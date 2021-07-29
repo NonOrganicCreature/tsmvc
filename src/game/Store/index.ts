@@ -30,6 +30,7 @@ class Store {
             const randomDirectionY: number = -1 + 2 * Math.random()
             
             const botEntity = new Bot(new BotViewModel(10, '#fff', new Position(randomX, randomY, randomDirectionX, randomDirectionY)))
+            botEntity.collider = new CircleCollider(botEntity, botEntity.viewModel.radius)
             const botEntityView = new BotView(viewsRenderContext)
             botEntity.viewModel.registerObserver(botEntityView)
 

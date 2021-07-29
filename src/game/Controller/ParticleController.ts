@@ -1,14 +1,9 @@
-import { PlayerAttackAnimation } from "../Animation/PlayerAttackAnimation";
-import { TimingFunctions } from "../Animation/TimingFunctions";
-import { inputable } from "../Decorators/InputableController";
-import { Entity } from "../Model/Entity";
 import { Player } from "../Model/Player";
 import { PlayerAttackParticle } from "../Model/PlayerAttackParticle";
-import { PlayerAttackParticleView } from "../View/PlayerAttackParticleView";
-import { PlayerAttackViewModel } from "../ViewModel/PlayerAttackViewModel";
 import { EntityController } from "./EntityController";
 import { store } from "../Store";
-@inputable
+import { Bot } from "../Model/Bot";
+
 class ParticleController extends EntityController {
     ctx: CanvasRenderingContext2D;
     constructor(ctx: CanvasRenderingContext2D) {
@@ -25,21 +20,17 @@ class ParticleController extends EntityController {
         // transform particles
         store.particles.forEach((particle) => {
             if (particle.animation) {
-                particle.viewModel.radius = particle.animation.animate(
-                    particle.viewModel
-                );
+                if (particle instanceof PlayerAttackParticle) {
+                    particle.viewModel.radius = particle.animation.animate(
+                        particle.viewModel
+                    );
+                }
 
                 if (particle.animation.progress() >= 1) {
                     particle.animation = null;
                 }
             }
-            if (particle instanceof PlayerAttackParticle) {
-                particle.viewModel.position = {
-                    ...particle.viewModel.position,
-                    x: store.playerEntity.viewModel.position.x,
-                    y: store.playerEntity.viewModel.position.y,
-                };
-            }
+
         });
 
         // check collisions
@@ -50,19 +41,16 @@ class ParticleController extends EntityController {
                         if (entity instanceof Player) {
                             return;
                         }
+                        if (entity instanceof Bot) {
+                            entity.viewModel.color = "#f00";
+                        }
                     }
                 }
             });
         });
     }
 
-    inputEventHandler(event: KeyboardEvent): void {
-        if (event.type === "keydown") {
-            switch (event.key) {
-                
-            }
-        }
-    }
+    inputEventHandler(event: KeyboardEvent): void {}
 }
 
 export { ParticleController };
