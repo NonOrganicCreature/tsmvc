@@ -3,6 +3,11 @@ import { PlayerAttackParticle } from "../Model/PlayerAttackParticle";
 import { EntityController } from "./EntityController";
 import { store } from "../Store";
 import { Bot } from "../Model/Bot";
+import { BotDestructionParticle } from "../Model/BotDestructionParticle";
+import { BotDestructionView } from "../View/BotDestructionView";
+import { BotDestructionViewModel } from "../ViewModel/BotDestructionViewModel";
+import { BotDestructionParticleAnimation } from "../Animation/BotDesctrutionParticleAnimation";
+import { TimingFunctions } from "../Animation/TimingFunctions";
 
 class ParticleController extends EntityController {
     ctx: CanvasRenderingContext2D;
@@ -26,11 +31,16 @@ class ParticleController extends EntityController {
                     );
                 }
 
+                if (particle instanceof BotDestructionParticle) {
+                    particle.viewModel.position = particle.animation.animate(
+                        particle.viewModel
+                    );
+                    console.log(particle.viewModel.position)
+                }
                 if (particle.animation.progress() >= 1) {
                     particle.animation = null;
                 }
             }
-
         });
 
         // check collisions
@@ -42,7 +52,44 @@ class ParticleController extends EntityController {
                             return;
                         }
                         if (entity instanceof Bot) {
-                            entity.viewModel.color = "#f00";
+                            const BOT_DESTRUCTION_PARTICLE_COUNT = 7;
+                            for (
+                                let i = 0;
+                                i < BOT_DESTRUCTION_PARTICLE_COUNT;
+                                i++
+                            ) {
+                                const randomDirection = {
+                                    ...entity.viewModel.position,
+                                };
+                                randomDirection.directionX =
+                                    -1 + 2 * Math.random();
+                                randomDirection.directionY =
+                                    -1 + 2 * Math.random();
+                                const botDestructionParticle =
+                                    new BotDestructionParticle(
+                                        new BotDestructionViewModel(
+                                            5,
+                                            "#fff",
+                                            randomDirection
+                                        )
+                                    );
+
+                                botDestructionParticle.animation =
+                                    new BotDestructionParticleAnimation(
+                                        performance.now() + 100,
+                                        TimingFunctions.quad,
+                                        30
+                                    );
+
+                                botDestructionParticle.viewModel.registerObserver(
+                                    new BotDestructionView(this.ctx)
+                                );
+
+                                store.particles.push(botDestructionParticle);
+                            }
+                            store.entities = store.entities.filter(
+                                (tEntity) => tEntity !== entity
+                            );
                         }
                     }
                 }

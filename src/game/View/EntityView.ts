@@ -1,4 +1,3 @@
-import { Entity } from "../Model/Entity"
 import { Observer } from "../Observing/Observer"
 import { ViewModel } from "../ViewModel/ViewMode"
 
