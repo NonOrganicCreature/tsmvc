@@ -8,6 +8,11 @@ const getCanvasContext = (): CanvasRenderingContext2D => {
     return c_context
 }
 
+window.onresize = () => {
+    getCanvasContext().canvas.width = window.innerWidth
+    getCanvasContext().canvas.height = window.innerHeight
+}
+
 
 const resetPageStyles = (): void => {
     document.body.style.padding = '0'

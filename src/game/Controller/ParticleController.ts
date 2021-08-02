@@ -32,10 +32,11 @@ class ParticleController extends EntityController {
                 }
 
                 if (particle instanceof BotDestructionParticle) {
-                    particle.viewModel.position = particle.animation.animate(
+                    const animationParams = particle.animation.animate(
                         particle.viewModel
                     );
-                    console.log(particle.viewModel.position)
+                    particle.viewModel.position = animationParams.newPosition
+                    particle.viewModel.opacity = animationParams.opacity
                 }
                 if (particle.animation.progress() >= 1) {
                     particle.animation = null;
@@ -76,9 +77,9 @@ class ParticleController extends EntityController {
 
                                 botDestructionParticle.animation =
                                     new BotDestructionParticleAnimation(
-                                        performance.now() + 100,
+                                        performance.now() + 300,
                                         TimingFunctions.quad,
-                                        30
+                                        45
                                     );
 
                                 botDestructionParticle.viewModel.registerObserver(

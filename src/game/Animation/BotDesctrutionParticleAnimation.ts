@@ -23,15 +23,17 @@ class BotDestructionParticleAnimation extends EntityAnimation {
         newPosition.x =
             this.startViewModel.position.x +
             this.startViewModel.position.directionX *
-            this.timingFunction(this.progress()) *
-            this.scaleParams;
+                this.timingFunction(this.progress()) *
+                this.scaleParams;
         newPosition.y =
             this.startViewModel.position.y +
             this.startViewModel.position.directionY *
-            this.timingFunction(this.progress()) *
-            this.scaleParams;
-
-        return newPosition;
+                this.timingFunction(this.progress()) *
+                this.scaleParams;
+        const opacity =
+            (1 - this.progress()) *
+            this.startViewModel.opacity;
+        return { newPosition, opacity: opacity < 0 ? 0 : opacity };
     }
 }
 
