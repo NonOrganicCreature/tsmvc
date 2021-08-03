@@ -8,6 +8,8 @@ import { BotDestructionView } from "../View/BotDestructionView";
 import { BotDestructionViewModel } from "../ViewModel/BotDestructionViewModel";
 import { BotDestructionParticleAnimation } from "../Animation/BotDesctrutionParticleAnimation";
 import { TimingFunctions } from "../Animation/TimingFunctions";
+import { PlayerScoreViewModel } from "../ViewModel/PlayerScoreViewModel";
+import { Score } from "../Model/Score";
 
 class ParticleController extends EntityController {
     ctx: CanvasRenderingContext2D;
@@ -35,8 +37,8 @@ class ParticleController extends EntityController {
                     const animationParams = particle.animation.animate(
                         particle.viewModel
                     );
-                    particle.viewModel.position = animationParams.newPosition
-                    particle.viewModel.opacity = animationParams.opacity
+                    particle.viewModel.position = animationParams.newPosition;
+                    particle.viewModel.opacity = animationParams.opacity;
                 }
                 if (particle.animation.progress() >= 1) {
                     particle.animation = null;
@@ -91,6 +93,12 @@ class ParticleController extends EntityController {
                             store.entities = store.entities.filter(
                                 (tEntity) => tEntity !== entity
                             );
+
+                            (<PlayerScoreViewModel>(
+                                store.entities.filter(
+                                    (tEntity) => tEntity instanceof Score
+                                )[0].viewModel
+                            )).scoreValue += 1;
                         }
                     }
                 }

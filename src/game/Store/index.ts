@@ -3,10 +3,13 @@ import { Bot } from '../Model/Bot'
 import { Entity } from '../Model/Entity'
 import { Player } from '../Model/Player'
 import { Position } from '../Model/Position'
+import { Score } from '../Model/Score'
 import { BotView } from '../View/BotView'
 import { EntityView } from '../View/EntityView'
+import { PlayerScoreView } from '../View/PlayerScoreView'
 import { PlayerView } from '../View/PlayerView'
 import { BotViewModel } from '../ViewModel/BotViewModel'
+import { PlayerScoreViewModel } from '../ViewModel/PlayerScoreViewModel'
 import { PlayerViewModel } from '../ViewModel/PlayerViewModel'
 
 class Store {
@@ -38,6 +41,11 @@ class Store {
             counter -= 1
         }
 
+        const scoreEntity = new Score(new PlayerScoreViewModel(10, "#f00", new Position(100, 100, 0, 0), 0));
+        const scoreView = new PlayerScoreView(viewsRenderContext)
+        scoreEntity.viewModel.registerObserver(scoreView)
+        
+        this._entities.push(scoreEntity)
         const randomX: number = viewsRenderContext.canvas.width * Math.random()
         const randomY: number = viewsRenderContext.canvas.height * Math.random()
         const randomDirectionX: number = -1 + 2 * Math.random()
