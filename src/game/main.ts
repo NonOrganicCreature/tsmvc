@@ -4,12 +4,14 @@ import { BotController } from "./Controller/BotController";
 import { PlayerController } from "./Controller/PlayerController";
 import { EntityController } from "./Controller/EntityController";
 import { ParticleController } from "./Controller/ParticleController";
+import { SpawnController } from "./Controller/SpawnController";
 
 
 const c_ctx: CanvasRenderingContext2D = getCanvasContext();
 const botController: EntityController = new BotController(null);
 const playerController: EntityController = new PlayerController(null);
 const particleController: EntityController = new ParticleController(c_ctx);
+const spawnController: EntityController = new SpawnController(c_ctx);
 
 
 const ENTITY_TO_GENERATE: number = 30;
@@ -27,9 +29,8 @@ const main = (): void => {
         botController.performAction();
     });
 
-    const pc = (particleController as ParticleController)
-    pc.performAction()
-    
+    particleController.performAction()
+    spawnController.performAction()
 
     playerController.entity = store.playerEntity;
     playerController.performAction();

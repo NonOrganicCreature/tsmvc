@@ -11,7 +11,7 @@ class PlayerScoreView extends EntityView {
 
     draw(params: ViewModel) {
         const vm = <PlayerScoreViewModel>params;
-        this.ctx.font = '30px Hack';
+        this.ctx.font = '30px Palette Mosaic';
         this.ctx.fillStyle = vm.color;
         this.ctx.textBaseline = 'top';
         this.ctx.fillText('Score: ' + vm.scoreValue, 100, 50);

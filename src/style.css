@@ -1,7 +1,1 @@
-@font-face {
-    font-family: 'Hack';
-    src: url('fonts/hack-bold.woff?sha=3114f1256') format('woff');
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-  }
+@import url('https://fonts.googleapis.com/css2?family=Palette+Mosaic&display=swap');
